@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="Movies"
+  id="myeclipse.1482066530331"
+  context-root="/Movies"
+  j2ee-spec="5.0"
+  archive="Movies.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
