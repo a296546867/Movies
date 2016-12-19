@@ -10,6 +10,6 @@ public interface BookDao {
 
 	Book findOneBook(String bookname);
 
-	List<Book> findAllBooks();
+	List<Book> findAllBooks(int startindex,int offset);
 
 }

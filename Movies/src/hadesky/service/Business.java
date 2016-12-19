@@ -9,14 +9,14 @@ public interface  Business {
 
 	void addCategory(Category category);
 	
-	Category findOneCategory(String bookname);
+	Category findOneCategory(int id);
 	
-	List<Category> findAllCategories();
+	List<Category> findAllCategories(int startindex,int offset);
 	
 	
 	void addBook(Book book);
 	
 	Book findOneBook(String Bookname);
 	
-	List<Book> findAllBooks();
+	List<Book> findAllBooks(int startindex,int offset);
 }

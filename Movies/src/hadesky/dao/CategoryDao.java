@@ -8,8 +8,8 @@ public interface CategoryDao {
 
 	void addCategory(Category category);
 
-	Category findOneCategory(String bookname);
+	Category findOneCategory(int id);
 
-	List<Category> findAllCategoryes();
+	List<Category> findAllCategoryes(int startindex,int offset);
 
 }

@@ -3,6 +3,8 @@ package hadesky.service.impl;
 import java.util.List;
 import hadesky.dao.BookDao;
 import hadesky.dao.CategoryDao;
+import hadesky.dao.impl.BookDaoImpl;
+import hadesky.dao.impl.CategoryDaoImpl;
 import hadesky.domain.Book;
 import hadesky.domain.Category;
 import hadesky.service.Business;
@@ -15,12 +17,12 @@ public class BusinessImpl implements Business{
 		categoryDao.addCategory(category);
 	}
 
-	public Category findOneCategory(String bookname) {
-		return categoryDao.findOneCategory(bookname);
+	public Category findOneCategory(int id) {
+		return categoryDao.findOneCategory(id);
 	}
 
-	public List<Category> findAllCategories() {
-		return categoryDao.findAllCategoryes();
+	public List<Category> findAllCategories(int startindex,int offset) {
+		return categoryDao.findAllCategoryes(startindex,offset);
 	}
 
 	public void addBook(Book book) {
@@ -31,8 +33,8 @@ public class BusinessImpl implements Business{
 		return bookDao.findOneBook(bookname);
 	}
 
-	public List<Book> findAllBooks() {
-		return bookDao.findAllBooks();
+	public List<Book> findAllBooks(int startindex,int offset) {
+		return bookDao.findAllBooks(startindex,offset);
 	}
 
 }
