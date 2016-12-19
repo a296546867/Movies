@@ -1,6 +1,8 @@
 package hadesky.service.impl;
 
 import java.util.List;
+import java.util.UUID;
+
 import hadesky.dao.BookDao;
 import hadesky.dao.CategoryDao;
 import hadesky.dao.impl.BookDaoImpl;
@@ -14,6 +16,7 @@ public class BusinessImpl implements Business{
 	private BookDao bookDao = new BookDaoImpl();
 	private CategoryDao categoryDao = new CategoryDaoImpl();
 	public void addCategory(Category category) { 
+		category.setId(UUID.randomUUID().toString());
 		categoryDao.addCategory(category);
 	}
 

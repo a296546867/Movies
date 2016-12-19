@@ -27,10 +27,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<br/><br/>
     <h1>后台管理</h1>
     <br/>
-    <a href="${pageContext.request.contextPath}/manage/addCategory.jsp">添加分类</a>
-    <a href="${pageContext.request.contextPath}/manage/ControlServlet?op=showAllCategories">查询分类</a>
-    <a href="${pageContext.request.contextPath}/manage/ControlServlet?op=showAddBookUI">添加图书</a>
-    <a href="${pageContext.request.contextPath}/manage/ControlServlet?op=showAllBooks">查询图书</a>
+    <a href="${pageContext.request.contextPath}/Admin/addCategory.jsp">添加分类</a>
+    <a href="${pageContext.request.contextPath}/Admin/ControllerServlet?op=showAllCategories">查询分类</a>
+    <a href="${pageContext.request.contextPath}/Admin/ControllerServlet?op=showAddBookUI">添加图书</a>
+    <a href="${pageContext.request.contextPath}/Admin/ControllerServlet?op=showAllBooks">查询图书</a>
     <a href="">待处理订单</a>
     <a href="">已处理订单</a>
     <br/>

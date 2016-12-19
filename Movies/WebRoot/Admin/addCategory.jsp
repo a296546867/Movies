@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/Admin/Header.jsp" %>
-<form action="${pageContext.request.contextPath}/Admin/ControlServlet?op=addCategory" method="post">
+<form action="${pageContext.request.contextPath}/Admin/ControllerServlet?op=addCategory" method="post">
     	<table border="1" width="438">
     		<tr>
     			<td>分类名称：</td>
