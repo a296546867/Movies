@@ -31,7 +31,7 @@ public class ControllerServlet extends HttpServlet {
 		Category category = FillBeanUtil.fillBean(request, Category.class);
 		try {
 			s.addCategory(category);
-			request.setAttribute("msg", "±£´æ³É¹¦");
+			request.setAttribute("msg", "success");
 			request.getRequestDispatcher("/Admin/message.jsp").forward(request, response);
 			
 		} catch (ServletException e) {
