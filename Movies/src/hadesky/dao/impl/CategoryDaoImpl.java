@@ -34,9 +34,9 @@ public class CategoryDaoImpl implements CategoryDao {
 		}
 	}
 
-	public List<Category> findAllCategoryes(int startindex,int offset) {
+	public List<Category> findAllCategoryes() {
 		try {
-			return queryRunner.query("select * from categorys limit ?,?", new BeanListHandler<Category>(Category.class),startindex,offset);
+			return queryRunner.query("select * from categorys ", new BeanListHandler<Category>(Category.class));
 		} catch (Exception e) {
 			throw new DaoException(e);
 		}

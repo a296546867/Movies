@@ -6,6 +6,7 @@ import hadesky.service.impl.BusinessImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,11 +23,30 @@ public class ControllerServlet extends HttpServlet {
 		String opString = request.getParameter("op");
 		if ("addCategory".equals(opString)) {
 			addCategory(request,response);
+		}else if ("showAllCategories".equals(opString)) {
+			showAllCategories(request,response);
 		}
 		
 		
 	}
+	//查询分类
+	private void showAllCategories(HttpServletRequest request,
+			HttpServletResponse response) {
+			try {
+				List<Category> list = s.findAllCategories();
+				request.setAttribute("sc", list);
+				request.getRequestDispatcher("/Admin/listCategory.jsp").forward(request, response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	}
 
+	//添加分类
 	private void addCategory(HttpServletRequest request, HttpServletResponse response) {
 		Category category = FillBeanUtil.fillBean(request, Category.class);
 		try {

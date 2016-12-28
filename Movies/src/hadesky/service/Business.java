@@ -11,7 +11,7 @@ public interface  Business {
 	
 	Category findOneCategory(int id);
 	
-	List<Category> findAllCategories(int startindex,int offset);
+	List<Category> findAllCategories();
 	
 	
 	void addBook(Book book);

@@ -10,6 +10,6 @@ public interface CategoryDao {
 
 	Category findOneCategory(int id);
 
-	List<Category> findAllCategoryes(int startindex,int offset);
+	List<Category> findAllCategoryes();
 
 }

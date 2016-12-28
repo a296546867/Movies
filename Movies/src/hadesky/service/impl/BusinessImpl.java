@@ -24,8 +24,8 @@ public class BusinessImpl implements Business{
 		return categoryDao.findOneCategory(id);
 	}
 
-	public List<Category> findAllCategories(int startindex,int offset) {
-		return categoryDao.findAllCategoryes(startindex,offset);
+	public List<Category> findAllCategories() {
+		return categoryDao.findAllCategoryes();
 	}
 
 	public void addBook(Book book) {
