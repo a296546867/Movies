@@ -3,6 +3,7 @@ package hadesky.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import hadesky.commons.Page;
 import hadesky.dao.BookDao;
 import hadesky.dao.CategoryDao;
 import hadesky.dao.impl.BookDaoImpl;
@@ -29,6 +30,7 @@ public class BusinessImpl implements Business{
 	}
 
 	public void addBook(Book book) {
+		book.setId(UUID.randomUUID().toString());
 		bookDao.addBook(book);
 	}
 
@@ -40,4 +42,19 @@ public class BusinessImpl implements Business{
 		return bookDao.findAllBooks(startindex,offset);
 	}
 
+	public Page findAllBookPageRecords(String pagenum) {
+		
+		int currentPageNum = 1;
+		if(pagenum!=null){
+			currentPageNum = Integer.parseInt(pagenum);
+		}
+		int totalRecords = bookDao.findAllBooksNumber();
+		Page page = new Page(currentPageNum, totalRecords);
+		
+		page.setRecords(bookDao.findPageBooks(page.getStartIndex(), page.getPageSize()));
+		
+		return page;
+	}
+
+	
 }

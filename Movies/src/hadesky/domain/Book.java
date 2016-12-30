@@ -3,7 +3,7 @@ package hadesky.domain;
 
 public class Book {
 
-	private int id;
+	private String id;
 	private String name;
 	private String author;
 	private float price;
@@ -13,11 +13,11 @@ public class Book {
 	
 	private String categoryid;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

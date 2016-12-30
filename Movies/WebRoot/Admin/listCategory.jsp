@@ -2,8 +2,6 @@
 <%@ include file="/Admin/Header.jsp"%>
 <br />
 <br />
-
-
 <table border="1" width="438">
 	<tr>
 		<th>选择</th>

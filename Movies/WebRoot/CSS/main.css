@@ -1,13 +1,18 @@
-body{
+body {
 	font-size: 12px;
 	text-align: center;
 }
-table{
+
+table {
 	font-size: 12px;
+	margin-left: auto;
+	margin-right: auto;
 }
-.odd{
+
+.odd {
 	background-color: #c3f3c3;
 }
-.even{
+
+.even {
 	background-color: #f3c3f3;
 }

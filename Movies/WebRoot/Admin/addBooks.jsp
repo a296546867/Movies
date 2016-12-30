@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/Admin/Header.jsp"%>
+<br/><br/>
 <form
 	action="${pageContext.request.contextPath}/Admin/ControllerServlet?op=addBook"
 	enctype="multipart/form-data" method="post">

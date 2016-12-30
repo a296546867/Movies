@@ -2,6 +2,7 @@ package hadesky.service;
 
 import java.util.List;
 
+import hadesky.commons.Page;
 import hadesky.domain.Book;
 import hadesky.domain.Category;
 
@@ -19,4 +20,6 @@ public interface  Business {
 	Book findOneBook(String Bookname);
 	
 	List<Book> findAllBooks(int startindex,int offset);
+
+	Page findAllBookPageRecords(String num);
 }

@@ -12,4 +12,8 @@ public interface BookDao {
 
 	List<Book> findAllBooks(int startindex,int offset);
 
+	int findAllBooksNumber();
+
+	List findPageBooks(int startIndex, int pageSize);
+
 }

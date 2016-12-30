@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import utli.DBCPUtil;
 
@@ -44,6 +45,24 @@ public class BookDaoImpl implements BookDao {
 		try {
 			return qRunner.query("select * from books limit ?,?", new BeanListHandler<Book>(Book.class),startindex,offset);
 		} catch (Exception e) {
+			throw new DaoException(e);
+		}
+	}
+
+	public int findAllBooksNumber() {
+		try{
+			Object obj = qRunner.query("select count(*) from books", new ScalarHandler(1));
+			Long num = (Long)obj;
+			return num.intValue();
+		}catch(Exception e){
+			throw new DaoException(e);
+		}
+	}
+
+	public List findPageBooks(int startIndex, int pageSize) {
+		try{
+			return qRunner.query("select * from books limit ?,?", new BeanListHandler<Book>(Book.class),startIndex,pageSize);
+		}catch(Exception e){
 			throw new DaoException(e);
 		}
 	}
