@@ -21,7 +21,7 @@ public class BusinessImpl implements Business{
 		categoryDao.addCategory(category);
 	}
 
-	public Category findOneCategory(int id) {
+	public Category findOneCategory(String id) {
 		return categoryDao.findOneCategory(id);
 	}
 
@@ -55,6 +55,7 @@ public class BusinessImpl implements Business{
 		
 		return page;
 	}
+
 
 	
 }

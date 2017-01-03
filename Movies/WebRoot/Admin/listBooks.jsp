@@ -21,7 +21,7 @@
 				<td nowrap="nowrap">${b.author}</td>
 				<td nowrap="nowrap">${b.price}</td>
 				<td nowrap="nowrap">${b.description}</td>
-				<td nowrap="nowrap"></td>
+				<td nowrap="nowrap">${myfn:showCategoryName(b.categoryid)}</td>
 				<td nowrap="nowrap">
 					<img src="${pageContext.request.contextPath}/images${b.path}/${b.photoFileName}"/>
 				</td>

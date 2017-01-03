@@ -10,7 +10,7 @@ public interface  Business {
 
 	void addCategory(Category category);
 	
-	Category findOneCategory(int id);
+	Category findOneCategory(String id);
 	
 	List<Category> findAllCategories();
 	

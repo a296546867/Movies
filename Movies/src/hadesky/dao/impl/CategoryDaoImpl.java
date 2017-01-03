@@ -26,7 +26,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		}
 	}
 
-	public Category findOneCategory(int id) {
+	public Category findOneCategory(String id) {
 		try {
 			return queryRunner.query("select * from categorys where id = ?", new BeanHandler<Category>(Category.class),id);
 		} catch (Exception e) {

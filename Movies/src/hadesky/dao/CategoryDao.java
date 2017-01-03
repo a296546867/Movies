@@ -8,7 +8,7 @@ public interface CategoryDao {
 
 	void addCategory(Category category);
 
-	Category findOneCategory(int id);
+	Category findOneCategory(String id);
 
 	List<Category> findAllCategoryes();
 
