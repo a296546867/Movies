@@ -16,4 +16,8 @@ public interface BookDao {
 
 	List findPageBooks(int startIndex, int pageSize);
 
+	int findAllBooksNumber(String categoryId);
+
+	List findPageBooks(int startIndex, int pageSize, String categoryId);
+
 }

@@ -6,14 +6,17 @@ import java.util.UUID;
 import hadesky.commons.Page;
 import hadesky.dao.BookDao;
 import hadesky.dao.CategoryDao;
+import hadesky.dao.UserDao;
 import hadesky.dao.impl.BookDaoImpl;
 import hadesky.dao.impl.CategoryDaoImpl;
+import hadesky.dao.impl.UserDaoImpl;
 import hadesky.domain.Book;
 import hadesky.domain.Category;
+import hadesky.domain.Users;
 import hadesky.service.Business;
 
 public class BusinessImpl implements Business{
-
+	private UserDao userDao = new UserDaoImpl();
 	private BookDao bookDao = new BookDaoImpl();
 	private CategoryDao categoryDao = new CategoryDaoImpl();
 	public void addCategory(Category category) { 
@@ -52,6 +55,28 @@ public class BusinessImpl implements Business{
 		Page page = new Page(currentPageNum, totalRecords);
 		
 		page.setRecords(bookDao.findPageBooks(page.getStartIndex(), page.getPageSize()));
+		
+		return page;
+	}
+
+	public void regist(Users users) {
+		users.setId(UUID.randomUUID().toString());
+		userDao.addUser(users);
+	}
+
+	public Users Login(String username,String password){
+		return userDao.findOneUser(username, password);
+	}
+
+	public Page findAllBookPageRecords(String pagenum, String categoryId) {
+		int currentPageNum = 1;
+		if(pagenum!=null){
+			currentPageNum = Integer.parseInt(pagenum);
+		}
+		int totalRecords = bookDao.findAllBooksNumber(categoryId);
+		Page page = new Page(currentPageNum, totalRecords);
+		
+		page.setRecords(bookDao.findPageBooks(page.getStartIndex(), page.getPageSize(),categoryId));
 		
 		return page;
 	}

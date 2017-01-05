@@ -53,7 +53,7 @@ public class ControllerServlet extends HttpServlet {
 	//查询图书
 	private void showAllBooks(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String num = request.getParameter("num");
+		String num = request.getParameter("pageNum");
 		Page page = s.findAllBookPageRecords(num);
 		page.setUrl("/Admin/ControllerServlet?op=showAllBooks");
 		request.setAttribute("page", page);

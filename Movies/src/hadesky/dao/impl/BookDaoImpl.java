@@ -67,4 +67,22 @@ public class BookDaoImpl implements BookDao {
 		}
 	}
 
+	public int findAllBooksNumber(String categoryId) {
+		try{
+			Object obj = qRunner.query("select count(*) from books where categoryid=?", new ScalarHandler(1),categoryId);
+			Long num = (Long)obj;
+			return num.intValue();
+		}catch(Exception e){
+			throw new DaoException(e);
+		}
+	}
+
+	public List findPageBooks(int startIndex, int pageSize, String categoryId) {
+		try{
+			return qRunner.query("select * from books where categoryId=? limit ?,? ", new BeanListHandler<Book>(Book.class),categoryId,startIndex,pageSize);
+		}catch(Exception e){
+			throw new DaoException(e);
+		}
+	}
+
 }

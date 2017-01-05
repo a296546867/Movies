@@ -5,6 +5,7 @@ import java.util.List;
 import hadesky.commons.Page;
 import hadesky.domain.Book;
 import hadesky.domain.Category;
+import hadesky.domain.Users;
 
 public interface  Business {
 
@@ -22,4 +23,12 @@ public interface  Business {
 	List<Book> findAllBooks(int startindex,int offset);
 
 	Page findAllBookPageRecords(String num);
+	
+
+	
+	void regist(Users users);
+	Users Login(String username,String password);
+
+	Page findAllBookPageRecords(String num, String categoryId);
+	
 }
