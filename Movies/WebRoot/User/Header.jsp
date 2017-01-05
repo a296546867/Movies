@@ -32,5 +32,5 @@
 	<br />
 	<a href="${pageContext.request.contextPath}/User/ClientController?op=showIndex">首页</a>
 	<a href="${pageContext.request.contextPath}/User/ClientController?op=showCustomerOrders">我的订单</a>
-	<a href="${pageContext.request.contextPath}/showCart.jsp">购物车</a>
+	<a href="${pageContext.request.contextPath}/User/showCart.jsp">购物车</a>
 	<br />

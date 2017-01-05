@@ -30,5 +30,7 @@ public interface  Business {
 	Users Login(String username,String password);
 
 	Page findAllBookPageRecords(String num, String categoryId);
+
+	Book findBookById(String bookId);
 	
 }

@@ -8,7 +8,7 @@ public interface BookDao {
 
 	void addBook(Book book);
 
-	Book findOneBook(String bookname);
+	Book findOneBook(String id);
 
 	List<Book> findAllBooks(int startindex,int offset);
 

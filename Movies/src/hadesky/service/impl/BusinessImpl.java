@@ -81,6 +81,11 @@ public class BusinessImpl implements Business{
 		return page;
 	}
 
+	public Book findBookById(String bookId) {
+		
+		return bookDao.findOneBook(bookId);
+	}
+
 
 	
 }

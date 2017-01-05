@@ -33,9 +33,9 @@ public class BookDaoImpl implements BookDao {
 		}
 	}
 
-	public Book findOneBook(String bookname) {
+	public Book findOneBook(String id) {
 		try {
-			return qRunner.query("select * from books where name=?", new BeanHandler<Book>(Book.class),bookname);
+			return qRunner.query("select * from books where id=?", new BeanHandler<Book>(Book.class),id);
 		} catch (Exception e) {
 			throw new DaoException(e);
 		}
