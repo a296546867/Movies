@@ -1,6 +1,7 @@
 package hadesky.controller;
 
 import hadesky.bean.Cart;
+import hadesky.bean.CartItem;
 import hadesky.commons.Page;
 import hadesky.domain.*;
 import hadesky.service.Business;
@@ -37,37 +38,67 @@ public class ClientController extends HttpServlet {
 			showCategoryBooks(request, response);
 		} else if ("showBookDetails".equals(opString)) {
 			showBookDetails(request, response);
-		}else if("buyBook".equals(opString)){
-			buyBook(request,response);
+		} else if ("buyBook".equals(opString)) {
+			buyBook(request, response);
+		} else if ("changeNum".equals(opString)) {
+			changeNum(request, response);
+		}else if ("delOneItem".equals(opString)) {
+			delOneItem(request, response);
 		}
 	}
-	//加入购入车
+
+	//删除购物项
+	private void delOneItem(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String bookId = request.getParameter("bookId");
+		Cart cart = (Cart) request.getSession().getAttribute("cart");
+		cart.getItems().remove(bookId);
+		response.sendRedirect(request.getContextPath()+"/User/showCart.jsp");	
+	}
+
+	// 购物项数量
+	private void changeNum(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		String bookId = request.getParameter("bookId");
+		String newNum = request.getParameter("num");
+
+		Cart cart = (Cart) request.getSession().getAttribute("cart");
+		CartItem item = cart.getItems().get(bookId);
+		item.setQuantity(Integer.parseInt(newNum));
+		request.getRequestDispatcher("/User/showCart.jsp").forward(request,
+				response);
+	}
+
+	// 加入购入车
 	private void buyBook(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String bookId = request.getParameter("bookId");
 		Book book = s.findBookById(bookId);
-		//购物车ﳵ
+		// 购物车ﳵ
 		HttpSession session = request.getSession();
 		Cart cart = (Cart) session.getAttribute("cart");
-		if(cart==null){
+		if (cart == null) {
 			cart = new Cart();
 			session.setAttribute("cart", cart);
 		}
-		//添加到购物车ﳵ
+		// 添加到购物车ﳵ
 		cart.addBook(book);
-		
-		request.setAttribute("msg", "添加成功，<a href='"+request.getContextPath()+"'>点击返回</a>");
-		request.getRequestDispatcher("/User/message.jsp").forward(request, response);
+
+		request.setAttribute("msg", "添加成功，<a href='" + request.getContextPath()
+				+ "'>点击返回</a>");
+		request.getRequestDispatcher("/User/message.jsp").forward(request,
+				response);
 	}
 
 	// 详情页
 	private void showBookDetails(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String bookId = request.getParameter("bookId");
-		
+
 		Book book = s.findBookById(bookId);
 		request.setAttribute("book", book);
-		request.getRequestDispatcher("/User/showDetails.jsp").forward(request, response);
+		request.getRequestDispatcher("/User/showDetails.jsp").forward(request,
+				response);
 	}
 
 	// 分类查询

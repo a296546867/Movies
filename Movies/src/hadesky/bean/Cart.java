@@ -41,7 +41,7 @@ public class Cart implements Serializable {
 	//添加到购物车
 	public void addBook(Book book){
 		if(items.containsKey(book.getId())){
-			//�鼮�Ѿ�����
+			//购物项
 			CartItem item = items.get(book.getId());
 			item.setQuantity(item.getQuantity()+1);
 		}else{
