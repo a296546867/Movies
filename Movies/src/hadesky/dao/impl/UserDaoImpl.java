@@ -49,4 +49,29 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	public Users findByCode(String code) {
+		try {
+			return qRunner.query("select * from customers where code=?", new BeanHandler<Users>(Users.class),code);
+		} catch (Exception e) {
+			throw new DaoException(e);
+		}
+	}
+
+	public void update(Users c) {
+		try {
+			qRunner.update("update customers set username=?,password=?,phone=?,address=?,email=?,actived=?,code=? where id=?", 
+					c.getUsername(),
+					c.getPassword(),
+					c.getPhone(),
+					c.getAddress(),
+					c.getEmail(),
+					c.isActived(),
+					c.getCode(),
+					c.getId());
+		} catch (Exception e) {
+			throw new DaoException(e);
+		}
+		
+	}
+
 }

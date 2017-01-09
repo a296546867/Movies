@@ -6,10 +6,10 @@ import hadesky.commons.Page;
 import hadesky.domain.*;
 import hadesky.service.Business;
 import hadesky.service.impl.BusinessImpl;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sun.security.jgss.LoginConfigImpl;
 import utli.FillBeanUtil;
+import utli.IdGenertor;
+import utli.PaymentUtil;
+import utli.SendMail;
 
 public class ClientController extends HttpServlet {
 
@@ -32,7 +35,7 @@ public class ClientController extends HttpServlet {
 			Login(request, response);
 		} else if ("logout".equals(opString)) {
 			logout(request, response);
-		} else if ("showIndex".equals(opString)) {
+		}  else if ("showIndex".equals(opString)) {
 			showIndex(request, response);
 		} else if ("showCategoryBooks".equals(opString)) {
 			showCategoryBooks(request, response);
@@ -42,18 +45,131 @@ public class ClientController extends HttpServlet {
 			buyBook(request, response);
 		} else if ("changeNum".equals(opString)) {
 			changeNum(request, response);
-		}else if ("delOneItem".equals(opString)) {
+		} else if ("delOneItem".equals(opString)) {
 			delOneItem(request, response);
+		}  else if ("genOrders".equals(opString)) {
+			genOrders(request, response);
+		}else if("active".equals(opString)){
+			active(request,response);
 		}
 	}
 
-	//删除购物项
+	private void active(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String code = request.getParameter("code");
+		if(code!=null&&!"".equals(code)){
+			s.activeCustomer(code);
+			response.getWriter().write("注册成功，2秒后跳转页面");
+			response.setHeader("Refresh", "2;URL="+request.getContextPath());
+		}else{
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+		}
+	}
+
+	private void pay(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String orderNum = request.getParameter("orderNum");// ������
+		String money = request.getParameter("money");// ֧�����
+		String pd_FrpId = request.getParameter("pd_FrpId");// ����
+
+		String p0_Cmd = "Buy";
+		String p1_MerId = "10001126856";
+		String p2_Order = orderNum;
+		String p3_Amt = money;
+		String p4_Cur = "CNY";
+		String p5_Pid = "unknown";
+		String p6_Pcat = "unknown";
+		String p7_Pdesc = "unknown";
+		String p8_Url = "http://localhost:8080/Movies/User/PaymentResponse";
+		String p9_SAF = "1";
+		String pa_MP = "no";
+		String pr_NeedResponse = "1";
+		String hmac = PaymentUtil.buildHmac(p0_Cmd, p1_MerId, p2_Order, p3_Amt,
+				p4_Cur, p5_Pid, p6_Pcat, p7_Pdesc, p8_Url, p9_SAF, pa_MP,
+				pd_FrpId, pr_NeedResponse,
+				"69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl");
+
+		request.setAttribute("p0_Cmd", p0_Cmd);
+		request.setAttribute("p1_MerId", p1_MerId);
+		request.setAttribute("p2_Order", p2_Order);
+		request.setAttribute("p3_Amt", p3_Amt);
+		request.setAttribute("p4_Cur", p4_Cur);
+		request.setAttribute("p5_Pid", p5_Pid);
+		request.setAttribute("p6_Pcat", p6_Pcat);
+		request.setAttribute("p7_Pdesc", p7_Pdesc);
+		request.setAttribute("p8_Url", p8_Url);
+		request.setAttribute("p9_SAF", p9_SAF);
+		request.setAttribute("pa_MP", pa_MP);
+		request.setAttribute("pr_NeedResponse", pr_NeedResponse);
+		request.setAttribute("pd_FrpId", pd_FrpId);
+		request.setAttribute("hmac", hmac);
+
+		request.getRequestDispatcher("/sure.jsp").forward(request, response);
+
+	}
+
+	private void genOrders(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		// �ж��û���û�е�¼
+		Users c = (Users) session.getAttribute("user");
+		if (c == null) {
+			response.sendRedirect(request.getContextPath() + "/User/login.jsp");
+			return;
+		}
+		// �ѹ��ﳵ---��������
+		Cart cart = (Cart) session.getAttribute("cart");
+
+		Order order = new Order();
+		String orderNum = IdGenertor.genOrdersNum();
+		order.setOrderNum(orderNum);
+		order.setQuantity(cart.getTotalQuantity());
+		order.setAmount(cart.getAmount());
+		order.setCustomer(c);
+
+		// ������---->��������
+		Map<String, CartItem> items = cart.getItems();
+		for (Map.Entry<String, CartItem> me : items.entrySet()) {
+			OrderItem oi = new OrderItem();
+			oi.setId(UUID.randomUUID().toString());
+			oi.setQuantity(me.getValue().getQuantity());
+			oi.setPrice(me.getValue().getTotalPrice());
+			oi.setBook(me.getValue().getBook());
+			order.getItems().add(oi);
+		}
+		// ������ϵ
+
+		// ����
+		s.genOrder(order);// ��ɶ���
+		// ת��֧��ҳ��
+		request.getRequestDispatcher(
+				"/User/pay.jsp?orderNum=" + orderNum + "&amount="
+						+ order.getAmount()).forward(request, response);
+
+	}
+
+	// 订单
+	private void showCustomerOrders(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		// 获得登录的用户信息
+		Users c = (Users) session.getAttribute("user");
+		if (c == null) {
+			response.sendRedirect(request.getContextPath() + "/User/login.jsp");
+			return;
+		}
+		List<Order> orders = s.findOrdersByCustomer(c);
+		request.setAttribute("os", orders);
+		request.getRequestDispatcher("/User/listOrders.jsp").forward(request,
+				response);
+	}
+
+	// 删除购物项
 	private void delOneItem(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String bookId = request.getParameter("bookId");
 		Cart cart = (Cart) request.getSession().getAttribute("cart");
 		cart.getItems().remove(bookId);
-		response.sendRedirect(request.getContextPath()+"/User/showCart.jsp");	
+		response.sendRedirect(request.getContextPath() + "/User/showCart.jsp");
 	}
 
 	// 购物项数量
@@ -169,7 +285,10 @@ public class ClientController extends HttpServlet {
 		users.setCode(UUID.randomUUID().toString());
 		s.regist(users);
 
-		request.setAttribute("msg", "success");
+		SendMail sm = new SendMail(users);
+		sm.start();
+		
+		request.setAttribute("msg", "请用邮箱验证");
 		request.getRequestDispatcher("/User/message.jsp").forward(request,
 				response);
 	}

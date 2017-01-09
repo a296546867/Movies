@@ -5,6 +5,7 @@ import java.util.List;
 import hadesky.commons.Page;
 import hadesky.domain.Book;
 import hadesky.domain.Category;
+import hadesky.domain.Order;
 import hadesky.domain.Users;
 
 public interface  Business {
@@ -32,5 +33,11 @@ public interface  Business {
 	Page findAllBookPageRecords(String num, String categoryId);
 
 	Book findBookById(String bookId);
+
+	List<Order> findOrdersByCustomer(Users c);
+
+	void genOrder(Order order);
+
+	void activeCustomer(String code);
 	
 }

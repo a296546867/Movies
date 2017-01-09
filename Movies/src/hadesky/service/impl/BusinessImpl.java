@@ -2,20 +2,23 @@ package hadesky.service.impl;
 
 import java.util.List;
 import java.util.UUID;
-
 import hadesky.commons.Page;
 import hadesky.dao.BookDao;
 import hadesky.dao.CategoryDao;
+import hadesky.dao.OrderDao;
 import hadesky.dao.UserDao;
 import hadesky.dao.impl.BookDaoImpl;
 import hadesky.dao.impl.CategoryDaoImpl;
+import hadesky.dao.impl.OrderDaoImpl;
 import hadesky.dao.impl.UserDaoImpl;
 import hadesky.domain.Book;
 import hadesky.domain.Category;
+import hadesky.domain.Order;
 import hadesky.domain.Users;
 import hadesky.service.Business;
 
 public class BusinessImpl implements Business{
+	private OrderDao orderDao = new OrderDaoImpl();
 	private UserDao userDao = new UserDaoImpl();
 	private BookDao bookDao = new BookDaoImpl();
 	private CategoryDao categoryDao = new CategoryDaoImpl();
@@ -84,6 +87,25 @@ public class BusinessImpl implements Business{
 	public Book findBookById(String bookId) {
 		
 		return bookDao.findOneBook(bookId);
+	}
+
+	public List<Order> findOrdersByCustomer(Users c) {
+		
+		return orderDao.findOrdersByCustomerId(c.getId());
+	}
+
+	public void genOrder(Order order) {
+		if(order.getCustomer()==null)
+			throw new IllegalArgumentException("订单无效");
+		order.setId(UUID.randomUUID().toString());
+		orderDao.save(order);
+	}
+
+	public void activeCustomer(String code) {
+		Users c = userDao.findByCode(code);
+		c.setActived(true);
+		userDao.update(c);
+		
 	}
 
 
